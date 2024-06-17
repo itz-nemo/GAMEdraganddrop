@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Brand Drag and Drop Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .dropzone {
+      width: 150px;
+      height: 200px;
+      padding: 10px;
+      border: 2px dashed #ccc;
+      text-align: center;
+      margin: 10px;
+      transition: border-color 0.3s ease;
+    }
+    .dropzone:hover {
+      border-color: #aaa;
+    }
+    .dropzone h2 {
+      font-size: 18px;
+      margin: 0;
+      padding-bottom: 10px;
+    }
+    .dropzone img {
+      width: 100%;
+      height: auto;
+    }
+    .draggable {
+      width: 150px;
+      height: 100px;
+      margin: 10px;
+      cursor: move;
+      transition: transform 0.2s ease;
+    }
+    .draggable:hover {
+      transform: scale(1.1);
+    }
+    .score-board {
+      text-align: right;
+      font-size: 24px;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  <script>
+    let score = 0;
+    let totalImages = 6;
+    let imagesPlaced = 0;
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev, brand) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      const draggedElement = document.getElementById(data);
+
+      if (draggedElement.dataset.brand === brand) {
+        ev.target.appendChild(draggedElement);
+        score++;
+        imagesPlaced++;
+      } else {
+        score--;
+      }
+      updateScore();
+
+      if (imagesPlaced === totalImages) {
+        alert("Game over! Your final score is: " + score);
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = "Score: " + score;
+    }
+  </script>
+</head>
+<body>
+  <div class="score-board">
+    <div id="score">Score: 0</div>
+  </div>
+  <h1>Car Brand Drag and Drop Game</h1>
+  <div class="container">
+    <div id="mercedes" class="dropzone" ondrop="drop(event, 'mercedes')" ondragover="allowDrop(event)">
+      <h2>Mercedes</h2>
+    </div>
+    <div id="bmw" class="dropzone" ondrop="drop(event, 'bmw')" ondragover="allowDrop(event)">
+      <h2>BMW</h2>
+    </div>
+    <div id="tata" class="dropzone" ondrop="drop(event, 'tata')" ondragover="allowDrop(event)">
+      <h2>Tata</h2>
+    </div>
+  </div>
+  <div class="container">
+    <div id="maruti" class="dropzone" ondrop="drop(event, 'maruti')" ondragover="allowDrop(event)">
+      <h2>Maruti</h2>
+    </div>
+    <div id="rollsroyce" class="dropzone" ondrop="drop(event, 'rollsroyce')" ondragover="allowDrop(event)">
+      <h2>Rolls Royce</h2>
+    </div>
+    <div id="ferrari" class="dropzone" ondrop="drop(event, 'ferrari')" ondragover="allowDrop(event)">
+      <h2>Ferrari</h2>
+    </div>
+  </div>
+  <div class="container">
+    <img id="img-mercedes" src="mercedes.png" class="draggable" draggable="true" ondragstart="drag(event)" data-brand="mercedes">
+    <img id="img-bmw" src="bmw.png" class="draggable" draggable="true" ondragstart="drag(event)" data-brand="bmw">
+    <img id="img-tata" src="tata.png" class="draggable" draggable="true" ondragstart="drag(event)" data-brand="tata">
+  </div>
+  <div class="container">
+    <img id="img-maruti" src="maruti.png" class="draggable" draggable="true" ondragstart="drag(event)" data-brand="maruti">
+    <img id="img-rollsroyce" src="rollsroyce.png" class="draggable" draggable="true" ondragstart="drag(event)" data-brand="rollsroyce">
+    <img id="img-ferrari" src="ferrari.png" class="draggable" draggable="true" ondragstart="drag(event)" data-brand="ferrari">
+  </div>
+</body>
+</html>
